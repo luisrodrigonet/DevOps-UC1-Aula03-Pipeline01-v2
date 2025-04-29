@@ -1,17 +1,10 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+import pandas as pd  
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('data.csv') 
+# Gera estatísticas em HTML  
+relatorio = df.describe().to_html()   
 
-# Cria figura e eixos explicitamente
-fig, ax = plt.subplots()  
+# Salva o HTML 
+with open('relatorio.html', 'w') as f:  
+    f.write(f"<h1>Relatório de Dados</h1>\n{relatorio}")  
 
-# Associa o plot aos eixos criados
-df['idade'].plot(kind='hist', ax=ax)  
-ax.set_title('Distribuição de Idades')
-
-# Salva a figura usando o objeto fig
-fig.savefig('grafico.png')  
-
-# Fecha a figura para liberar memória
-plt.close()  
