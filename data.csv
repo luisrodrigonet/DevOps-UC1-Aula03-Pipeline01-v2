@@ -1,5 +1,5 @@
 id,nome,idade,salario  
 1,Ana,28,5000  
-2,Pedro,12,4500   
+2,Pedro,,4500   
 3,Carla,35,6000  
-4,João,40,1234 
+4,João,40, 
