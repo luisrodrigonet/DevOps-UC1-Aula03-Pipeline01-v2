@@ -1,0 +1,20 @@
+name: Pipeline de Validação de Dados  
+on: [push] # Executa o pipeline ao detectar um push no repositório  
+
+jobs:  
+  validar-dados: # Nome do job 
+    runs-on: ubuntu-latest  
+    steps:  
+      - name: Baixar Código  
+        uses: actions/checkout@v4  # Baixa o código do repositório
+
+      - name: Configurar Python  
+        uses: actions/setup-python@v4  # Instala Python  
+        with:  
+          python-version: '3.10'  # Versão do Python
+
+      - name: Instalar Dependências  
+        run: pip install pandas  # Instala o Pandas via pip
+
+      - name: Validar Dados  
+        run: python validar_dados.py  # Executa o script de validação
