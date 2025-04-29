@@ -1,20 +1,31 @@
-name: Pipeline de Validação de Dados  
-on: [push] # Executa o pipeline ao detectar um push no repositório  
+name: Pipeline Completo  
+on: [push]  
 
 jobs:  
-  validar-dados: # Nome do job 
+  validar-dados:  
     runs-on: ubuntu-latest  
     steps:  
-      - name: Baixar Código  
-        uses: actions/checkout@v4  # Baixa o código do repositório
+      - name: Baixar Código
+        uses: actions/checkout@v4
 
-      - name: Configurar Python  
-        uses: actions/setup-python@v4  # Instala Python  
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Dependências
+        run: pip install pandas matplotlib  # Adicionado matplotlib para gráficos
+
+      - name: Validar Dados
+        run: python validar_dados.py  
+
+      - name: Gerar Relatório  
+        run: |  
+          python gerar_relatorio.py  
+          mv relatorio.html relatorio-${{ github.sha }}.html  # Renomeia o arquivo com o hash do commit 
+
+      - name: Upload Relatório  
+        uses: actions/upload-artifact@v4  # Faz upload do relatório  
         with:  
-          python-version: '3.10'  # Versão do Python
-
-      - name: Instalar Dependências  
-        run: pip install pandas  # Instala o Pandas via pip
-
-      - name: Validar Dados  
-        run: python validar_dados.py  # Executa o script de validação
+          name: relatorio  
+          path: relatorio-*.html  # Caminho do arquivo a ser salvo
